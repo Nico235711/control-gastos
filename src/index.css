@@ -105,6 +105,7 @@ header h1 {
 	border: none;
 	flex: 1;
 	font-size: 1.6rem;
+	outline: none;
 }
 
 .formulario input[type="submit"] {
@@ -140,6 +141,7 @@ header h1 {
 	border-radius: 1rem;
 	text-align: center;
 	background-color: var(--gris-claro);
+	outline: none;
 }
 
 .alerta {
