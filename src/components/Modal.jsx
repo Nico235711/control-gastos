@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import IconoCerrarModal from '../img/cerrar.svg'
 import Mensaje from './Mensaje'
 
@@ -7,6 +7,7 @@ const Modal = ({
   animarModal, 
   setAnimarModal, 
   guardarGasto,
+  gastoEditar,
   setGastoEditar
 }) => {
 
@@ -14,6 +15,18 @@ const Modal = ({
   const [cantidad, setCantidad] = useState("")
   const [categoria, setCategoria] = useState("")
   const [mensaje, setMensaje] = useState("")
+  const [id, setId] = useState("")
+  const [fecha, setFecha] = useState("")
+
+  useEffect(() => {
+    if (Object.keys(gastoEditar).length > 0) {
+      setGasto(gastoEditar.gasto)
+      setCantidad(gastoEditar.cantidad)
+      setCategoria(gastoEditar.categoria)
+      setId(gastoEditar.id)
+      setFecha(gastoEditar.fecha)
+    }
+  }, []);
 
   const handleCerrarModal = () => {
     setAnimarModal(false)
@@ -40,7 +53,9 @@ const Modal = ({
     const objGasto = {
       gasto,
       cantidad,
-      categoria
+      categoria,
+      id,
+      fecha 
     }
     guardarGasto(objGasto)
   }
@@ -60,7 +75,11 @@ const Modal = ({
         onSubmit={handleSubmit}
       >
 
-        <legend>Nuevo Gasto</legend>
+        <legend>
+          {
+            gastoEditar.gasto ? "Editar Gasto" : "Nuevo Gasto"
+          }
+        </legend>
         {
           mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>
         }
@@ -71,6 +90,7 @@ const Modal = ({
             type="text" 
             id="gasto" 
             placeholder='Añade tu gasto' 
+            value={gasto}
             onChange={e => setGasto(e.target.value)}
           />
         </div>
@@ -81,18 +101,23 @@ const Modal = ({
             type="number" 
             id="cantidad" 
             placeholder='Añada la cantidad gastada. Ej: $300' 
+            value={cantidad}
             onChange={e => setCantidad(Number(e.target.value))}
           />
         </div>
 
         <div className='campo'>
           <label htmlFor="categoria">Categoría:</label>
-          <select id="categoria" onChange={e => setCategoria(e.target.value)}>
+          <select 
+            id="categoria" 
+            value={categoria}
+            onChange={e => setCategoria(e.target.value)}
+          >
             <option value="">-- Seleccione un categoría --</option>
             <option value="ahorro">Ahorro</option>
             <option value="comida">Comida</option>
             <option value="casa">Casa</option>
-            <option value="gastos-varios">Gastos Varios</option>
+            <option value="gastos">Gastos Varios</option>
             <option value="ocio">Ocio</option>
             <option value="salud">Salud</option>
             <option value="subscripciones">Subscripciones</option>
@@ -101,7 +126,7 @@ const Modal = ({
 
         <input 
           type="submit" 
-          value="Añadir Gasto"
+          value={gastoEditar.gasto ? "Guardar Cambios" : "Añadir Gasto"}
         />
       </form>
     </div>
