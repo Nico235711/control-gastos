@@ -160,8 +160,6 @@ header h1 {
 	color: #b91c1c;
 }
 
-.alerta.success {}
-
 .contenedor {
 	width: 90%;
 	max-width: 80rem;
@@ -281,6 +279,8 @@ main {
 	border-radius: 1rem;
 	text-align: center;
 	background-color: var(--gris-claro);
+	appearance: none;
+	outline: none;
 }
 
 .listado-gastos {
